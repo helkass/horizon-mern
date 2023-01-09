@@ -4,11 +4,7 @@ const Blog = require("../models/blog");
 const getAllBlogs = async (req, res) =>{
     try {
         await Blog.find().then(response => {
-            res.status(200).json({
-                status: true,
-                messsgae: "GET All Blog Success",
-                data: response
-            })
+            res.status(200).json(response)
         })
     } catch (error) {
         res.status(500).json({
@@ -51,11 +47,7 @@ const getBlogById = (req, res) => {
 
     try {
         Blog.findById(id).then(data => {
-            res.status(200).json({
-                status: true,
-                message: "SUCCESS CALL",
-                data: data
-            })
+            res.status(200).json(data)
         }).catch(err => {
             res.status(404).json({
                 status: false,

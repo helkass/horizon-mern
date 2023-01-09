@@ -27,14 +27,19 @@ const createItem = (req, res) => {
 
 // GET ITEMS
 const getAllItems = async (req, res) =>{
+    const qType = req.query.type;
     try {
-        await Item.find().then(response => {
-            res.status(200).json({
-                status: true,
-                messsgae: "GET All Items Success",
-                data: response
+        let items;
+        if(qType){
+            items = await Item.find({
+                type : {
+                    $in: [qType]
+                }
             })
-        })
+        }else {
+            items = await Item.find()
+        }
+        res.status(200).json(items)
     } catch (error) {
         res.status(500).json({
             status: false,
@@ -44,17 +49,25 @@ const getAllItems = async (req, res) =>{
     }
 }
 
+// UPDATE || EDIT
+const editItem = async (req, res) => {
+    const id = req.params.id;
+    const newData = req.body;
+    try {
+        const response = await Item.findByIdAndUpdate(id, newData);
+        res.status(201).json(response);
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
 // GET BLOG BY ID
 const getItemById = (req, res) => {
     const id = req.params.id
 
     try {
         Item.findById(id).then(data => {
-            res.status(200).json({
-                status: true,
-                message: "SUCCESS CALL",
-                data: data
-            })
+            res.status(200).json(data)
         }).catch(err => {
             res.status(404).json({
                 status: false,
@@ -93,5 +106,6 @@ module.exports = {
     createItem,
     getAllItems,
     getItemById,
-    deleteItem
+    deleteItem,
+    editItem
 }

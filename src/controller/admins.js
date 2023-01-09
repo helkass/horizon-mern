@@ -39,12 +39,8 @@ const createAdmin = async (req, res)=> {
 // GET ALL ADMIN
 const getAllAdmins = async (req, res)=> {
     try {
-        await Admin.find({}).then(response => {
-            res.status(200).json({
-                status: true,
-                data: response
-            })
-        })
+        const response = await Admin.find();
+        res.status(200).json(response.data);
     } catch (error) {
         return res.status(500).json({
             status: false,
@@ -88,8 +84,19 @@ const loginAdmin = async (req, res) => {
       res.status(500).json(error);
     }
   }
+
+const deleteAdmin = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const response = await Admin.findByIdAndDelete(id);
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
 module.exports = {
     createAdmin,
     getAllAdmins,
-    loginAdmin
+    loginAdmin,
+    deleteAdmin
 }

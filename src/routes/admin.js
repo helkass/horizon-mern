@@ -1,15 +1,16 @@
 const router = require("express").Router();
-const { verifyToken } = require("../middleware/verifyToken");
 
-const { createAdmin, getAllAdmins, loginAdmin } = require("../controller/admins");
+const { createAdmin, getAllAdmins, loginAdmin, deleteAdmin } = require("../controller/admins");
 
 // CREATE ADMIN
-router.post('/register', verifyToken , createAdmin)
+router.post('/register', createAdmin)
 
 // GET ADMIN
-router.get('/', verifyToken , getAllAdmins)
+router.get('/', getAllAdmins)
 
 // LOGIN
 router.post("/login", loginAdmin);
+
+router.delete("/delete/:id", deleteAdmin)
 
 module.exports = router;

@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const {getAllBlogs, createBlog, getBlogById, deleteBlog} = require("../controller/blogs");
-const { verifyToken } = require("../middleware/verifyToken");
 
 router.get('/', getAllBlogs);
 
